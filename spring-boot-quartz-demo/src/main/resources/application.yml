@@ -1,0 +1,46 @@
+server:
+  port: 9090
+## quartz
+spring:
+  quartz:
+    # 采用数据库存储方式
+    jobStoreType: jdbc
+    # 每次启动重新初始化数据库中Quartz相关的表，如果不需要每次启动服务都重新创建表，下面两项可以不配置，事先在数据库中创建好Quartz相关的表
+    jdbc:
+      initialize-schema: always
+      # 初始化脚本
+      schema: classpath:schemas/quartz.sql
+    #使用自己的配置文件
+    properties:
+      org:
+        quartz:
+          jobStore:
+            useProperties: false
+            #存储方式使用JobStoreTX，也就是数据库
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            #是否使用集群（如果项目只部署到 一台服务器，就不用了）
+            isClustered: false
+            clusterCheckinInterval: 20000
+            #数据库中quartz表的表名前缀
+            tablePrefix: qrtz_
+            #datasource: quartzDataSource
+          scheduler: #默认或是自己改名字都行
+            instanceName: DefaultQuartzScheduler
+            #如果使用集群，instanceId必须唯一，设置成AUTO
+            instanceId: AUTO
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 10
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+  datasource:
+    driver: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/quartz-test?serverTimezone=GMT&characterEncoding=utf-8
+    username: root
+    password: 123456
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
