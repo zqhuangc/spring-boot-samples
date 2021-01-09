@@ -1,0 +1,9 @@
+# 自动装配
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.melody.opensource.springboot.autoconfiguredemo.auto.configuration.HelloWorldAutoConfiguration,\
+com.melody.opensource.springboot.autoconfiguredemo.starter.autoconfigure.PersonAutoConfiguration
+
+
+## 自定义 Spring Boot ApplicationListener
+org.springframework.context.ApplicationListener=\
+com.melody.opensource.springboot.autoconfiguredemo.configure.context.CustomizedSpringBootApplicationListener
